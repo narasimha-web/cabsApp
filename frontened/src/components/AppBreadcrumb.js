@@ -1,9 +1,10 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom';
 
 import routes from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
+import { left } from '@popperjs/core'
 
 const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname
@@ -41,9 +42,11 @@ const AppBreadcrumb = () => {
             key={index}
           >
             {breadcrumb.name}
+            
           </CBreadcrumbItem>
         )
       })}
+    
     </CBreadcrumb>
   )
 }

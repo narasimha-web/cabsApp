@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React,{useState} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -14,9 +14,52 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { cilLockLocked, cilUser } from '@coreui/icons';
 
 const Login = () => {
+  const [validated,setValidated] = useState(false);
+  const [userData,setUserData] = useState({
+    username: "",
+    password: ""
+  });
+
+  const [errorMessage,setErrorMessage] = useState('')
+  const navigate = useNavigate()
+  const handleChange = (e) =>{
+    const {name,value} = e.target;
+    setUserData({
+      ...userData,
+      [name]:value
+    })
+  }
+  const handleSubmit = async(e) =>{
+    e.preventDefault()
+    console.log(userData)
+    const form = e.currentTarget
+  if (form.checkValidity() === false) {
+    e.stopPropagation();
+    setValidated(true)
+    return
+  }
+    try{
+      const responce = await fetch("http://localhost:8000/api/login",{
+        method : "POST",
+        headers : {
+          'Content-Type':"application/json"
+        },
+        body : JSON.stringify(userData)
+      })
+      const data = await responce.json();
+      if(data.status === 0){
+        localStorage.setItem("authToken",data.jwtToken);
+        navigate("/Dashboard")
+      }else{
+        setErrorMessage("invalid Credentiales")
+      }
+    }catch(err){
+      console.log(err)
+    }
+}
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -25,14 +68,21 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm noValidate validated={validated} onSubmit={handleSubmit} >
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput placeholder="Username"
+                       autoComplete="username" 
+                       feedbackInvalid ="Field Required"
+                       required
+                       name='username'
+                       value={userData.username}
+                       onChange={handleChange} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,11 +92,16 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        feedbackInvalid ="Field Required"
+                        required
+                        name='password'
+                        value={userData.password}
+                        onChange={handleChange}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton type="submit" color="primary" className="px-4" >
                           Login
                         </CButton>
                       </CCol>

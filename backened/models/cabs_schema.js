@@ -2,12 +2,13 @@ const mongoose = require("mongoose")
 
 const cabs = new mongoose.Schema({
     driverId:{
-        type : String,
-        required:true
+        type : mongoose.Schema.Types.ObjectId,
+        required:false,
+        ref :"drivers"
     },
     type :{
         type :String,
-        enum: ['cab', 'auto', 'bike'] 
+        enum: ['car', 'auto', 'bike',"bus"] 
     },
     regNo :{
         type : String,

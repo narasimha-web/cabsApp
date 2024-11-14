@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const payments = new mongoose.Schema({
     tripId :{
-        type : Number,
-        required : true
+        type : mongoose.Schema.Types.ObjectId,
+        ref :"trips",
+        required : false
     },
     method : {
-        type : Number,
+        type : String,
         required : true
     },
     amount : {

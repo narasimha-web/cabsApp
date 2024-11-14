@@ -2,20 +2,26 @@ const mongoose = require("mongoose");
 
 const trips = new mongoose.Schema({
     customerId :{
-        type : Number,
-        required : true
+        type : mongoose.Schema.Types.ObjectId,
+        required : false,
+        ref:"customers",
+
     },
     driverId : {
-        type : Number,
-        required : true
+        type : mongoose.Schema.Types.ObjectId,
+        required : false,
+        ref : "drivers",
+        
     },
-    paymentId : {
-        type : Number,
-        required : true
+    paymentId  : {
+        type : mongoose.Schema.Types.ObjectId,
+        required :false,
+       ref : "payments",
+      
     },
     status: {
         type: String,
-        enum: ['pending', 'completed', 'canceled'],  
+        enum: ['pending', 'completed', 'cancelled'],  
         default: 'pending'
     },
     source: {
@@ -29,6 +35,7 @@ const trips = new mongoose.Schema({
     createdAt : {
         type : Date,
         default : Date.now
+    
     }
 });
 

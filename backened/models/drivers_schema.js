@@ -6,8 +6,9 @@ const driver = new mongoose.Schema({
         required : true
     },
     cabId:{
-        type:String,
-        required : true
+        type:mongoose.Schema.Types.ObjectId,
+        required : false,
+        ref: "cabs"
     },
     email :{
         type : String,
