@@ -1,27 +1,50 @@
 const express = require("express");
 const router = express();
+const authToken = require("../../middlewares/authentication");
 
-const {saveCabeUser,saveCustomer,savedDriver,register,loginUser,fetchCabDrivers,updateDriver,fetchCabs,editCab,cabDelete,driverDelete,cabDrivers,fetchCustomers,savedTrips,payment,fetchTrips} = require('../../controllers/cabUsers');
+const {
+  saveCabeUser,
+  saveCustomer,
+  savedDriver,
+  register,
+  loginUser,
+  fetchCabDrivers,
+  updateDriver,
+  fetchCabs,
+  editCab,
+  cabDelete,
+  driverDelete,
+  cabDrivers,
+  fetchCustomers,
+  savedTrips,
+  payment,
+  fetchTrips,
+  editTrip,
+  searchData,
+  searchItem,
+  searchCustomer,
+  getProfileImage,
+} = require("../../controllers/cabUsers");
 
-router.post("/savedcab",saveCabeUser);
-router.post("/savedCustomer",saveCustomer);
-router.post("/savedDrivers",savedDriver);
-router.post("/register",register);
-router.post("/login",loginUser);
-router.get("/drivers",fetchCabDrivers);
-router.put("/updateDriver/:id",updateDriver);
-router.get("/cabs",fetchCabs);
-router.put("/editCab/:id",editCab);
-router.delete("/cabDelete/:id",cabDelete);
-router.delete("/driverDelete/:id",driverDelete);
-router.get("/cabDriver",cabDrivers);
-router.get("/fetchCustomers",fetchCustomers);
-router.post("/savedTrips",savedTrips);
-router.get("/trips",fetchTrips)
-
-
-
-
-
+router.post("/savedcab", authToken, saveCabeUser);
+router.post("/savedCustomer", authToken, saveCustomer);
+router.post("/savedDrivers", authToken, savedDriver);
+router.post("/register", register);
+router.post("/login", loginUser);
+router.get("/drivers", authToken, fetchCabDrivers);
+router.put("/updateDriver/:id", authToken, updateDriver);
+router.get("/cabs", authToken, fetchCabs);
+router.put("/editCab/:id", authToken, editCab);
+router.delete("/cabDelete/:id", authToken, cabDelete);
+router.delete("/driverDelete/:id", authToken, driverDelete);
+router.get("/cabDriver", authToken, cabDrivers);
+router.get("/fetchCustomers", authToken, fetchCustomers);
+router.post("/savedTrips", authToken, savedTrips);
+router.get("/trips", authToken, fetchTrips);
+router.put("/editTrip/:id", authToken, editTrip);
+router.post("/findDate", searchData);
+router.post("/searchItems", searchItem);
+router.post("/searchCustomer", searchCustomer);
+router.get("/profileImage", getProfileImage);
 
 module.exports = router;
