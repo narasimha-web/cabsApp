@@ -12,15 +12,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 //=====================================================================================saved CabUsers
+
 exports.getProfileImage = async (req, res) => {
   try {
-    const responce = await profileImage.find();
+    const responce = await register.find();
     res.status(200).send({
       status: 0,
-      data: responce.map((image) => ({
-        fileName: image.filename,
-        url: `http://localhost:8000/static/${responce.filename}`,
-      })),
+      data: responce,
+      img: responce.map((image) => image.fileName),
     });
   } catch (err) {
     console.log(err);
@@ -322,6 +321,7 @@ exports.register = async (req, res) => {
     return res.status(200).json({ status: 0, message: "Register Sucessfully" });
   } catch (err) {
     res.status(400).send({ error: err });
+    6;
   }
 };
 
@@ -346,7 +346,7 @@ exports.loginUser = async (req, res) => {
       },
     };
     const jwtToken = await jwt.sign(payLoad, "secret", { expiresIn: "24h" });
-    return res.status(200).json({ status: 0, jwtToken });
+    return res.status(200).json({ status: 0, jwtToken, user: usernameExist });
   } catch (err) {
     res.status(400).send(err);
   }

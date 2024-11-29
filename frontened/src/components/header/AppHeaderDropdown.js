@@ -11,16 +11,20 @@ import {
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { CIcon } from '@coreui/icons-react'
 
-import avatar8 from './../../assets/images/avatars/8.jpg'
+// import avatar8 from './../../assets/images/avatars/8.jpg'
 
 const AppHeaderDropdown = () => {
   const [avatar, setAvatar] = useState('')
-  useEffect(() => {
-    const storedImage = localStorage.getItem('image')
-    if (storedImage) {
-      setAvatar(JSON.parse(storedImage))
+
+  const profileUpload = () => {
+    const storeProfile = JSON.parse(localStorage.getItem('profileImage'))
+    if (storeProfile) {
+      setAvatar(storeProfile)
     }
-  }, [])
+  }
+  useEffect(() => {
+    profileUpload()
+  }, [avatar])
 
   const navigate = useNavigate()
   const handleOut = () => {

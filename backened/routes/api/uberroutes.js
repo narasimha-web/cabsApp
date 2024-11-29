@@ -46,5 +46,6 @@ router.post("/findDate", searchData);
 router.post("/searchItems", searchItem);
 router.post("/searchCustomer", searchCustomer);
 router.get("/profileImage", getProfileImage);
+router.post("/uploadFile");
 
 module.exports = router;

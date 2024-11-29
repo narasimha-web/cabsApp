@@ -35,7 +35,7 @@ const Login = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    localStorage.setItem('loginDetails', JSON.stringify(userData))
+    localStorage.setItem('userInf', JSON.stringify(userData))
 
     const form = e.currentTarget
     if (form.checkValidity() === false) {
